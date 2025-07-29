@@ -1,5 +1,6 @@
 """Test the lib module functionality."""
 
+import tempfile
 from pathlib import Path
 from unittest.mock import Mock, patch
 
@@ -7,7 +8,9 @@ import numpy as np
 import pytest
 
 from neurostrip.lib import (
+    URL,
     ONNXPredictor,
+    download_file,
     get_onnxruntime_session,
     is_cuda_available,
     predict,
@@ -342,3 +345,24 @@ def test_predict_basic(mock_write: Mock, mock_read: Mock) -> None:
 
     # Verify that WriteImage was called
     mock_write.assert_called_once()
+
+
+def test_download_file_success():
+    """Test successful download and extraction of the model file."""
+    with tempfile.TemporaryDirectory() as temp_dir:
+        dest_folder = Path(temp_dir)
+
+        # Download and extract the file
+        result = download_file(URL, dest_folder, timeout=30.0)
+
+        # Assert download was successful
+        assert result is True
+
+        # Assert the expected model file exists after extraction
+        model_file = dest_folder / "brainmask.onnx"
+        assert model_file.exists()
+        assert model_file.stat().st_size > 0
+
+        # Assert zip file was cleaned up
+        zip_file = dest_folder / "brainmask.onnx-1.0.zip"
+        assert not zip_file.exists()
