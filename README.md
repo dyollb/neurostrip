@@ -2,7 +2,9 @@
 [![PyPI](https://img.shields.io/pypi/v/neurostrip.svg)](https://pypi.org/project/neurostrip/)
 [![CI](https://github.com/dyollb/neurostrip/actions/workflows/ci.yml/badge.svg)](https://github.com/dyollb/neurostrip/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Downloads](https://img.shields.io/pypi/dm/neurostrip.svg)](https://pypi.org/project/neurostrip/)
+<img src="https://img.shields.io/pypi/dm/neurostrip.svg?label=pypi%20downloads&logo=python&logoColor=green"/>
+<img src="https://img.shields.io/badge/python-3.10%20|%203.11%20|%203.12-3776ab.svg"/>
+
 CNN based skull stripping (brain masking) from MRI
 
 ## Installation
@@ -143,7 +145,6 @@ All contributions must:
 - Pass pre-commit hooks
 - Maintain or improve test coverage
 - Include type annotations
-- Follow Google docstring conventions
 - Pass all CI checks
 
 ## License
