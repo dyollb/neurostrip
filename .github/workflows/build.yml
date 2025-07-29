@@ -36,6 +36,7 @@ jobs:
     - name: Test package installation
       run: |
         python -m pip install dist/*.whl
+        python -m pip install onnxruntime
         python -c "import neurostrip; print('Package installation successful')"
 
     - name: Upload build artifacts
