@@ -1,5 +1,8 @@
 # NeuroStrip
-
+[![PyPI](https://img.shields.io/pypi/v/neurostrip.svg)](https://pypi.org/project/neurostrip/)
+[![CI](https://github.com/dyollb/neurostrip/actions/workflows/ci.yml/badge.svg)](https://github.com/dyollb/neurostrip/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Downloads](https://img.shields.io/pypi/dm/neurostrip.svg)](https://pypi.org/project/neurostrip/)
 CNN based skull stripping (brain masking) from MRI
 
 ## Installation
