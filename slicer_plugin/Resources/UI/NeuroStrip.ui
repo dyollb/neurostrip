@@ -94,22 +94,6 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="0" colspan="2">
-       <widget class="QCheckBox" name="generateMaskedVolume">
-        <property name="text">
-         <string>Generate masked brain volume</string>
-        </property>
-        <property name="toolTip">
-         <string>If checked, creates a masked version of the input volume using the brain mask</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-        <property name="SlicerParameterName" stdset="0">
-         <string>generateMaskedVolume</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="0">
        <widget class="QLabel" name="label_4">
         <property name="text">
@@ -196,37 +180,5 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>generateMaskedVolume</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>outputMaskedVolume</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>183</x>
-     <y>231</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>280</x>
-     <y>262</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>generateMaskedVolume</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>label_4</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>183</x>
-     <y>231</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>95</x>
-     <y>262</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>

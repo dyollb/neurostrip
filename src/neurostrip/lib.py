@@ -72,12 +72,12 @@ def predict(
     mask_np = np.transpose(mask_np, (2, 1, 0))
     mask = sitk.GetImageFromArray(mask_np)
     mask.CopyInformation(img)
-    if mask.GetSize() != input.GetSize():
+    if mask.GetSize() != input.GetSize() or mask.GetDirection() != input.GetDirection():
         mask = sitk.Resample(mask, input, sitk.Transform(), sitk.sitkLabelLinear)
     sitk.WriteImage(mask, str(mask_path))
 
     if masked_image_path:
-        input = sitk.Mask(input, mask)
+        input[mask == 0] = 0.0  # Set masked areas to zero
         sitk.WriteImage(input, str(masked_image_path))
 
 
@@ -220,4 +220,4 @@ def sliding_window_inference(
             output[slice_key] += batch_output[b]
             count_map[slice_key] += 1
 
-    return output / count_map
+    return typing.cast(np.ndarray, output / count_map)

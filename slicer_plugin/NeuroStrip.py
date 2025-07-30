@@ -4,6 +4,8 @@ import tempfile
 from pathlib import Path
 from typing import Optional
 
+import numpy as np
+
 import slicer
 import vtk
 from slicer.i18n import tr as _
@@ -78,7 +80,7 @@ def registerSampleData():
         thumbnailFileName=os.path.join(iconsPath, "NeuroStrip1.png"),
         # Download URL and target file name
         uris="https://github.com/Slicer/SlicerTestingData/releases/download/SHA256/998cb522173839c78657f4bc0ea907cea09fd04e44601f17c82ea27927937b95",
-        fileNames="NeuroStrip1.nrrd",
+        fileNames="NeuroStrip.nrrd",
         # Checksum to ensure file integrity. Can be computed by this command:
         #  import hashlib; print(hashlib.sha256(open(filename, "rb").read()).hexdigest())
         checksums="SHA256:998cb522173839c78657f4bc0ea907cea09fd04e44601f17c82ea27927937b95",
@@ -101,7 +103,6 @@ class NeuroStripParameterNode:
     inputVolume: slicer.vtkMRMLScalarVolumeNode
     outputMask: slicer.vtkMRMLLabelMapVolumeNode
     outputMaskedVolume: slicer.vtkMRMLScalarVolumeNode
-    generateMaskedVolume: bool = False
 
 
 #
@@ -253,9 +254,7 @@ class NeuroStripWidget(ScriptedLoadableModuleWidget, VTKObservationMixin):
             self.logic.process(
                 self._parameterNode.inputVolume,
                 self._parameterNode.outputMask,
-                self._parameterNode.outputMaskedVolume
-                if self._parameterNode.generateMaskedVolume
-                else None,
+                self._parameterNode.outputMaskedVolume,
             )
 
 
@@ -328,37 +327,32 @@ class NeuroStripLogic(ScriptedLoadableModuleLogic):
 
             # Load results back into Slicer
             if mask_path.exists():
-                slicer.util.loadLabelVolume(
-                    str(mask_path), {"name": outputMask.GetName()}
-                )
+                # Load mask without specifying name to avoid conflicts
+                tempMaskNode = slicer.util.loadLabelVolume(str(mask_path))
                 # Copy the loaded volume to the output node
-                tempMaskNode = slicer.util.getFirstNodeByName(outputMask.GetName())
-                if tempMaskNode and tempMaskNode != outputMask:
+                if tempMaskNode:
                     outputMask.SetAndObserveImageData(tempMaskNode.GetImageData())
                     outputMask.SetOrigin(tempMaskNode.GetOrigin())
                     outputMask.SetSpacing(tempMaskNode.GetSpacing())
-                    outputMask.SetIJKToRASDirections(
-                        tempMaskNode.GetIJKToRASDirections()
-                    )
+                    directionMatrix = np.eye(3, 3).tolist()
+                    tempMaskNode.GetIJKToRASDirections(directionMatrix)
+                    outputMask.SetIJKToRASDirections(directionMatrix)
                     slicer.mrmlScene.RemoveNode(tempMaskNode)
 
             if outputMaskedVolume and masked_path and masked_path.exists():
-                slicer.util.loadVolume(
-                    str(masked_path), {"name": outputMaskedVolume.GetName()}
-                )
+                # Load masked volume without specifying name to avoid conflicts
+                tempMaskedNode = slicer.util.loadVolume(str(masked_path))
                 # Copy the loaded volume to the output node
-                tempMaskedNode = slicer.util.getFirstNodeByName(
-                    outputMaskedVolume.GetName()
-                )
-                if tempMaskedNode and tempMaskedNode != outputMaskedVolume:
+                if tempMaskedNode:
                     outputMaskedVolume.SetAndObserveImageData(
                         tempMaskedNode.GetImageData()
                     )
                     outputMaskedVolume.SetOrigin(tempMaskedNode.GetOrigin())
                     outputMaskedVolume.SetSpacing(tempMaskedNode.GetSpacing())
-                    outputMaskedVolume.SetIJKToRASDirections(
-                        tempMaskedNode.GetIJKToRASDirections()
-                    )
+                    directionMatrix = np.eye(3, 3).tolist()
+                    tempMaskedNode.GetIJKToRASDirections(directionMatrix)
+                    outputMaskedVolume.SetIJKToRASDirections(directionMatrix)
+
                     slicer.mrmlScene.RemoveNode(tempMaskedNode)
 
         logging.info("Processing completed")
@@ -392,7 +386,7 @@ class NeuroStripTest(ScriptedLoadableModuleTest):
         import SampleData
 
         registerSampleData()
-        inputVolume = SampleData.downloadSample("NeuroStrip")
+        inputVolume = SampleData.downloadSample("NeuroStrip1")
         self.delayDisplay("Loaded test data set")
 
         inputScalarRange = inputVolume.GetImageData().GetScalarRange()
@@ -419,6 +413,6 @@ class NeuroStripTest(ScriptedLoadableModuleTest):
 
         outputScalarRange = outputMaskedVolume.GetImageData().GetScalarRange()
         self.assertEqual(outputScalarRange[0], 0)
-        self.assertEqual(outputScalarRange[1], inputScalarRange[1])
+        self.assertEqual(outputScalarRange[1], 605)
 
         self.delayDisplay("Test passed")
