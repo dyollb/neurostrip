@@ -7,7 +7,7 @@
 
 CNN based skull stripping (brain masking) from MRI.
 
-<p align="center">
+<p align="left">
    <img src="https://raw.githubusercontent.com/dyollb/neurostrip/main/slicer_plugin/Resources/Icons/NeuroStrip.png" alt="NeuroStrip Slicer Plugin Icon" width="120"/>
 </p>
 
