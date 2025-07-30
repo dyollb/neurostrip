@@ -8,7 +8,7 @@
 CNN based skull stripping (brain masking) from MRI.
 
 <p align="center">
-   <img src="https://raw.githubusercontent.com/dyollb/neurostrip/main/slicer-plugin/icon.png" alt="NeuroStrip Slicer Plugin Icon" width="120"/>
+   <img src="https://raw.githubusercontent.com/dyollb/neurostrip/main/slicer_plugin/Resources/Icons/NeuroStrip.png" alt="NeuroStrip Slicer Plugin Icon" width="120"/>
 </p>
 
 ## Installation
@@ -31,7 +31,7 @@ neurostrip --image-path input.nii.gz --mask-path mask.nii.gz --masked-image-path
 
 ## Slicer Plugin
 
-To make it more convenient to use, this repository includes a plugin that can be installed in [3D Slicer](https://www.slicer.org/). For installation instructions and more details, please refer to the [README](https://raw.githubusercontent.com/dyollb/neurostrip/main/slicer-plugin/README.md).
+To make it more convenient to use, this repository includes a plugin that can be installed in [3D Slicer](https://www.slicer.org/). For installation instructions and more details, please refer to the [README](https://raw.githubusercontent.com/dyollb/neurostrip/main/slicer_plugin/README.md).
 
 ## Contributing
 
