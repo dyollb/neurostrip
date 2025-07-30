@@ -5,7 +5,7 @@
 <img src="https://img.shields.io/pypi/dm/neurostrip.svg?label=pypi%20downloads&logo=python&logoColor=green"/>
 <img src="https://img.shields.io/badge/python-3.9%20|3.10%20|%203.11%20|%203.12-3776ab.svg"/>
 
-CNN based skull stripping (brain masking) from MRI
+CNN based skull stripping (brain masking) from MRI.
 
 <p align="center">
    <img src="https://raw.githubusercontent.com/dyollb/neurostrip/main/slicer-plugin/icon.png" alt="NeuroStrip Slicer Plugin Icon" width="120"/>
@@ -26,7 +26,7 @@ pip install neurostrip[gpu]
 ## Usage
 
 ```bash
-neurostrip --image-path input.nii.gz --output-path output.nii.gz
+neurostrip --image-path input.nii.gz --mask-path mask.nii.gz --masked-image-path output.nii.gz
 ```
 
 ## Slicer Plugin
