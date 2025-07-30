@@ -49,7 +49,7 @@ make clean             # Clean build artifacts
 - **Type annotations**: Required for all public functions (MyPy excludes tests)
 - **Test coverage**: Must maintain or improve existing coverage
 - **Pre-commit hooks**: Must pass all automated checks
-- **Python 3.10+**: Modern Python features encouraged
+- **Python 3.9+**: Modern Python features encouraged
 - **Ruff compliance**: Code must pass linting and formatting checks
 
 ### Pre-commit Hooks

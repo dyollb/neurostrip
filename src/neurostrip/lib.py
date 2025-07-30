@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import http
 import logging
 import ssl
@@ -22,7 +24,7 @@ def predict(
     device: str = "cuda",
 ) -> None:
     """Predict brain mask from a 3D MRI image and save the output mask."""
-    input = sitk.ReadImage(image_path, sitk.sitkFloat32)
+    input = sitk.ReadImage(str(image_path), sitk.sitkFloat32)
     img = sitk.DICOMOrient(input, "RAS")  # Ensure image is in RAS orientation
     dx = 1.0  # Desired spacing in mm
     tolerance = 0.1  # Allowable spacing deviation
@@ -70,13 +72,13 @@ def predict(
     mask_np = np.transpose(mask_np, (2, 1, 0))
     mask = sitk.GetImageFromArray(mask_np)
     mask.CopyInformation(img)
-    if mask.GetSize() != input.GetSize():
+    if mask.GetSize() != input.GetSize() or mask.GetDirection() != input.GetDirection():
         mask = sitk.Resample(mask, input, sitk.Transform(), sitk.sitkLabelLinear)
-    sitk.WriteImage(mask, mask_path)
+    sitk.WriteImage(mask, str(mask_path))
 
     if masked_image_path:
-        input = sitk.Mask(input, mask)
-        sitk.WriteImage(input, masked_image_path)
+        input[mask == 0] = 0.0  # Set masked areas to zero
+        sitk.WriteImage(input, str(masked_image_path))
 
 
 class ONNXPredictor:
@@ -218,4 +220,4 @@ def sliding_window_inference(
             output[slice_key] += batch_output[b]
             count_map[slice_key] += 1
 
-    return output / count_map
+    return typing.cast(np.ndarray, output / count_map)

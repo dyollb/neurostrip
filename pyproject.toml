@@ -17,13 +17,14 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Medical Science Apps.",
     "Topic :: Scientific/Engineering :: Image Processing",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 dependencies = ["numpy", "SimpleITK"]
 
 [project.optional-dependencies]
@@ -59,7 +60,7 @@ version = {attr = "neurostrip.__version__"}
 
 # Ruff configuration
 [tool.ruff]
-target-version = "py310"
+target-version = "py39"
 line-length = 88
 src = ["src", "tests"]
 
@@ -96,7 +97,7 @@ fix = true
 
 # MyPy configuration
 [tool.mypy]
-python_version = "3.10"
+python_version = "3.9"
 warn_return_any = true
 warn_unused_configs = true
 disallow_untyped_defs = true
@@ -111,7 +112,7 @@ warn_unreachable = true
 strict_equality = true
 show_error_codes = true
 exclude = [
-    "tests/",
+    "tests/", "slicer_plugin/"
 ]
 
 [[tool.mypy.overrides]]

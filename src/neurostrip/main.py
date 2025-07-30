@@ -9,15 +9,21 @@ def main() -> None:
         description="Predict brain mask from a 3D MRI image."
     )
     parser.add_argument(
+        "-i",
         "--image-path",
         type=Path,
         required=True,
         help="Path to the input MRI image file.",
     )
     parser.add_argument(
-        "--mask-path", type=Path, required=True, help="Path to the output mask file."
+        "-m",
+        "--mask-path",
+        type=Path,
+        required=True,
+        help="Path to the output mask file.",
     )
     parser.add_argument(
+        "-o",
         "--masked-image-path",
         type=Path,
         default=None,
