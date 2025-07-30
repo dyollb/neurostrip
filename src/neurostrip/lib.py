@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import http
 import logging
 import ssl
@@ -22,7 +24,7 @@ def predict(
     device: str = "cuda",
 ) -> None:
     """Predict brain mask from a 3D MRI image and save the output mask."""
-    input = sitk.ReadImage(image_path, sitk.sitkFloat32)
+    input = sitk.ReadImage(str(image_path), sitk.sitkFloat32)
     img = sitk.DICOMOrient(input, "RAS")  # Ensure image is in RAS orientation
     dx = 1.0  # Desired spacing in mm
     tolerance = 0.1  # Allowable spacing deviation
@@ -72,11 +74,11 @@ def predict(
     mask.CopyInformation(img)
     if mask.GetSize() != input.GetSize():
         mask = sitk.Resample(mask, input, sitk.Transform(), sitk.sitkLabelLinear)
-    sitk.WriteImage(mask, mask_path)
+    sitk.WriteImage(mask, str(mask_path))
 
     if masked_image_path:
         input = sitk.Mask(input, mask)
-        sitk.WriteImage(input, masked_image_path)
+        sitk.WriteImage(input, str(masked_image_path))
 
 
 class ONNXPredictor:

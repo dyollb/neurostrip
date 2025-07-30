@@ -19,6 +19,7 @@ repos:
       # Run the linter
       - id: ruff
         args: [--fix]
+        exclude: ^slicer_plugin/
       # Run the formatter
       - id: ruff-format
 
@@ -27,8 +28,8 @@ repos:
     rev: v1.10.1
     hooks:
       - id: mypy
-        args: [--ignore-missing-imports, --python-version=3.10]
-        exclude: ^tests/
+        args: [--ignore-missing-imports, --python-version=3.9]
+        exclude: ^(slicer_plugin|tests)/
 
   # Security scanning
   - repo: https://github.com/PyCQA/bandit
